@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  channel-info:
+    container_name: channel-info
+    image: hyperledger/fabric-ca-tools
+    #command: /bin/bash -c '/scripts/get-channel-info.sh org2 2>&1 | tee /data/logs/channel-fetch.log'
+    command: /bin/bash -c '/scripts/get-channel-info.sh'
+    dns:
+      - 172.16.0.254
+    environment:
+      - GODEBUG=netdns=go
+      - ORDERER_CA=/data/orgs/org0/msp/tlscacerts/node1-org0-7054.pem
+    volumes:
+      - ./scripts:/scripts
+      - ./data:/data
+    network_mode: "host"
+    # networks:
+    #   - fabric-ca
+    # depends_on:
+    #   - rca-org1
+    ports:
+      - 7054:7054
+
